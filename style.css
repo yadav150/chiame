@@ -1280,3 +1280,224 @@ img {
 .justify-between {
     justify-content: space-between;
 }
+/* ============================================================
+   SKILLS & LANGUAGES - TAG SELECTOR STYLES
+   ============================================================ */
+.select-tag-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.select-tag-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.tag-select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    background: var(--color-white);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A5A7A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.tag-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(108, 60, 225, 0.12);
+}
+
+.tag-select.error {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    min-height: 36px;
+    padding: var(--spacing-xs) 0;
+    align-items: center;
+}
+
+.tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    border: 1px solid rgba(108, 60, 225, 0.2);
+    transition: all var(--transition-fast);
+    animation: tagFadeIn 0.25s ease;
+}
+
+.tag-chip:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.tag-chip .tag-remove {
+    cursor: pointer;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+    margin-left: 2px;
+}
+
+.tag-chip .tag-remove:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.tag-chip:hover .tag-remove {
+    opacity: 1;
+}
+
+.custom-tag-input {
+    margin-top: var(--spacing-sm);
+    padding: 0.6rem 1rem;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    border: 1.5px solid var(--color-primary-light);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.custom-tag-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(108, 60, 225, 0.12);
+}
+
+@keyframes tagFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ============================================================
+   MOBILE NAV FIXES
+   ============================================================ */
+.nav-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    visibility: visible;
+    overflow-y: auto;
+    z-index: 999;
+    padding-top: 70px;
+}
+
+.nav-mobile.open {
+    transform: translateX(0);
+}
+
+.nav-mobile-inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: calc(100vh - 70px);
+    padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.nav-mobile-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 320px;
+    padding: 0;
+}
+
+.nav-mobile-list a {
+    display: block;
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-text);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+
+.nav-mobile-list a:hover,
+.nav-mobile-list a.active {
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
+}
+
+/* Fix header z-index */
+.site-header {
+    z-index: 1001;
+}
+
+/* ============================================================
+   RESPONSIVE: Tag selector on mobile
+   ============================================================ */
+@media (max-width: 480px) {
+    .tag-chip {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+    }
+    .tag-container {
+        min-height: 30px;
+        gap: 4px;
+    }
+    .custom-tag-input {
+        font-size: var(--font-size-sm);
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* ============================================================
+   FORM VALIDATION - RED BORDER
+   ============================================================ */
+.form-control.error {
+    border-color: var(--color-error) !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15) !important;
+}
+
+.form-control.error:focus {
+    border-color: var(--color-error) !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* ============================================================
+   DECLARATION DATE - READONLY STYLE
+   ============================================================ */
+.form-control[readonly] {
+    background: var(--color-surface);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
