@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Build your professional resume with CV By Chiame – comprehensive form with all necessary details." />
+    <title>Resume Builder – CV By Chiame 💝</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- ============================================================
+    HEADER (same as index)
+    ============================================================ -->
+    <header class="site-header" role="banner">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-icon">💝</span>
+                    <span class="logo-text">CV By Chiame</span>
+                </a>
+            </div>
+            <nav class="nav-desktop" aria-label="Main Navigation">
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="resume-form.html" class="active">Resume Builder</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="disclaimer.html">Disclaimer</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+        <div class="nav-mobile" role="navigation" aria-label="Mobile Navigation">
+            <div class="nav-mobile-inner">
+                <ul class="nav-mobile-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="resume-form.html" class="active">Resume Builder</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="disclaimer.html">Disclaimer</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN FORM CONTENT
+    ============================================================ -->
+    <main>
+        <section class="section page-content">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Build Your Resume</span>
+                    <h1 class="section-title">Resume Builder</h1>
+                    <p class="section-subtitle">
+                        Fill in your details below. All fields marked with <span class="required">*</span> are mandatory.
+                    </p>
+                </div>
+
+                <!-- Glass notification container (populated by script) -->
+                <div id="glass-notification" class="glass-notification" role="alert">
+                    <span class="notif-icon"><i class="fas fa-exclamation-circle"></i></span>
+                    <span id="notif-message">Error message</span>
+                </div>
+
+                <!-- ============================================================
+                RESUME FORM
+                ============================================================ -->
+                <form id="resume-form" class="form-section" novalidate>
+
+                    <!-- ============================================================
+                    PERSONAL DETAILS (Mandatory)
+                    ============================================================ -->
+                    <fieldset>
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-user-circle" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Personal Details <span class="required">*</span>
+                        </legend>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fullname">Full Name <span class="required">*</span></label>
+                                <input type="text" id="fullname" name="fullname" class="form-control" placeholder="e.g. John Doe" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="fathername">Father's Name <span class="required">*</span></label>
+                                <input type="text" id="fathername" name="fathername" class="form-control" placeholder="e.g. Robert Doe" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="mothername">Mother's Name <span class="required">*</span></label>
+                                <input type="text" id="mothername" name="mothername" class="form-control" placeholder="e.g. Jane Doe" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="dob">Date of Birth <span class="required">*</span></label>
+                                <input type="date" id="dob" name="dob" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="gender">Gender <span class="required">*</span></label>
+                                <select id="gender" name="gender" class="form-control" required>
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                    <option value="Prefer not to say">Prefer not to say</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number <span class="required">*</span></label>
+                                <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="e.g. 9876543210" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Complete Address <span class="required">*</span></label>
+                                <input type="text" id="address" name="address" class="form-control" placeholder="Street, area, landmark" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="village">Village/Town <span class="required">*</span></label>
+                                <input type="text" id="village" name="village" class="form-control" placeholder="e.g. Springfield" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="postoffice">Post Office <span class="required">*</span></label>
+                                <input type="text" id="postoffice" name="postoffice" class="form-control" placeholder="e.g. Main Post Office" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="policestation">Police Station <span class="required">*</span></label>
+                                <input type="text" id="policestation" name="policestation" class="form-control" placeholder="e.g. City Police Station" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="district">District <span class="required">*</span></label>
+                                <input type="text" id="district" name="district" class="form-control" placeholder="e.g. Mumbai" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="state">State <span class="required">*</span></label>
+                                <input type="text" id="state" name="state" class="form-control" placeholder="e.g. Maharashtra" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="pincode">PIN Code <span class="required">*</span></label>
+                                <input type="text" id="pincode" name="pincode" class="form-control" placeholder="e.g. 400001" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nationality">Nationality <span class="required">*</span></label>
+                                <input type="text" id="nationality" name="nationality" class="form-control" placeholder="e.g. Indian" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category <span class="required">*</span></label>
+                                <select id="category" name="category" class="form-control" required>
+                                    <option value="">Select</option>
+                                    <option value="General">General</option>
+                                    <option value="OBC">OBC</option>
+                                    <option value="SC">SC</option>
+                                    <option value="ST">ST</option>
+                                    <option value="EWS">EWS</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="marital">Marital Status <span class="required">*</span></label>
+                                <select id="marital" name="marital" class="form-control" required>
+                                    <option value="">Select</option>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Divorced">Divorced</option>
+                                    <option value="Widowed">Widowed</option>
+                                    <option value="Separated">Separated</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="aadhaar">Aadhaar (Optional)</label>
+                                <input type="text" id="aadhaar" name="aadhaar" class="form-control" placeholder="12-digit number" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="linkedin">LinkedIn (Optional)</label>
+                                <input type="url" id="linkedin" name="linkedin" class="form-control" placeholder="https://linkedin.com/in/username" />
+                            </div>
+                            <div class="form-group">
+                                <label for="github">GitHub (Optional)</label>
+                                <input type="url" id="github" name="github" class="form-control" placeholder="https://github.com/username" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    EDUCATIONAL QUALIFICATION (Mandatory)
+                    ============================================================ -->
+                    <fieldset style="margin-top: var(--spacing-2xl);">
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-graduation-cap" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Educational Qualifications <span class="required">*</span>
+                        </legend>
+                        <div id="education-container">
+                            <!-- Entry 1 (default) -->
+                            <div class="entry-wrapper" data-entry="education">
+                                <div class="entry-header">
+                                    <span class="entry-number">#1</span>
+                                    <button type="button" class="btn-remove remove-education" style="display: none;" aria-label="Remove this qualification">
+                                        <i class="fas fa-trash-alt"></i> Remove
+                                    </button>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="edu_exam_1">Examination Name <span class="required">*</span></label>
+                                        <input type="text" id="edu_exam_1" name="edu_exam[]" class="form-control" placeholder="e.g. 10th, 12th, B.Sc." required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edu_board_1">Board/University <span class="required">*</span></label>
+                                        <input type="text" id="edu_board_1" name="edu_board[]" class="form-control" placeholder="e.g. CBSE, Mumbai University" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="edu_institution_1">Institution <span class="required">*</span></label>
+                                        <input type="text" id="edu_institution_1" name="edu_institution[]" class="form-control" placeholder="School/College name" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edu_stream_1">Stream <span class="required">*</span></label>
+                                        <input type="text" id="edu_stream_1" name="edu_stream[]" class="form-control" placeholder="e.g. Science, Commerce, Arts" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="edu_year_1">Year of Passing <span class="required">*</span></label>
+                                        <input type="number" id="edu_year_1" name="edu_year[]" class="form-control" placeholder="e.g. 2020" min="1900" max="2099" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edu_grade_1">Grade / Percentage / CGPA <span class="required">*</span></label>
+                                        <input type="text" id="edu_grade_1" name="edu_grade[]" class="form-control" placeholder="e.g. 85%, 8.5 CGPA" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edu_subjects_1">Subjects (Optional)</label>
+                                    <input type="text" id="edu_subjects_1" name="edu_subjects[]" class="form-control" placeholder="e.g. Mathematics, Physics, Chemistry" />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-education" class="btn-add">
+                            <i class="fas fa-plus-circle"></i> Add Qualification
+                        </button>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    OTHER QUALIFICATIONS (Optional)
+                    ============================================================ -->
+                    <fieldset style="margin-top: var(--spacing-2xl);">
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-certificate" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Other Qualifications (Optional)
+                        </legend>
+                        <div id="other-qual-container">
+                            <!-- No default entry; user can add -->
+                        </div>
+                        <button type="button" id="add-other-qual" class="btn-add">
+                            <i class="fas fa-plus-circle"></i> Add Certification
+                        </button>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    EXPERIENCE (Optional)
+                    ============================================================ -->
+                    <fieldset style="margin-top: var(--spacing-2xl);">
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-briefcase" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Experience (Optional)
+                        </legend>
+                        <div id="experience-container">
+                            <!-- No default entry -->
+                        </div>
+                        <button type="button" id="add-experience" class="btn-add">
+                            <i class="fas fa-plus-circle"></i> Add Experience
+                        </button>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    SKILLS (Mandatory)
+                    ============================================================ -->
+                    <fieldset style="margin-top: var(--spacing-2xl);">
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-tags" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Skills <span class="required">*</span> (max 3)
+                        </legend>
+                        <div class="form-group">
+                            <label for="skills">Select up to 3 skills <span class="required">*</span></label>
+                            <select id="skills" name="skills" class="form-control" multiple size="4" required>
+                                <option value="JavaScript">JavaScript</option>
+                                <option value="Python">Python</option>
+                                <option value="Java">Java</option>
+                                <option value="C#">C#</option>
+                                <option value="C++">C++</option>
+                                <option value="HTML/CSS">HTML/CSS</option>
+                                <option value="React">React</option>
+                                <option value="Angular">Angular</option>
+                                <option value="Vue.js">Vue.js</option>
+                                <option value="Node.js">Node.js</option>
+                                <option value="Express.js">Express.js</option>
+                                <option value="Django">Django</option>
+                                <option value="Spring Boot">Spring Boot</option>
+                                <option value="SQL">SQL</option>
+                                <option value="MongoDB">MongoDB</option>
+                                <option value="AWS">AWS</option>
+                                <option value="Docker">Docker</option>
+                                <option value="Git">Git</option>
+                                <option value="Agile">Agile</option>
+                                <option value="Leadership">Leadership</option>
+                                <option value="Communication">Communication</option>
+                                <option value="Problem Solving">Problem Solving</option>
+                            </select>
+                            <span class="helper">Hold Ctrl (or Cmd on Mac) to select multiple. You may select up to 3.</span>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    LANGUAGES KNOWN (Mandatory)
+                    ============================================================ -->
+                    <fieldset style="margin-top: var(--spacing-2xl);">
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-language" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Languages Known <span class="required">*</span> (max 3)
+                        </legend>
+                        <div class="form-group">
+                            <label for="languages">Select up to 3 languages <span class="required">*</span></label>
+                            <select id="languages" name="languages" class="form-control" multiple size="4" required>
+                                <option value="English">English</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Korean">Korean</option>
+                                <option value="Russian">Russian</option>
+                                <option value="Portuguese">Portuguese</option>
+                                <option value="Arabic">Arabic</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Punjabi">Punjabi</option>
+                                <option value="Marathi">Marathi</option>
+                                <option value="Tamil">Tamil</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Urdu">Urdu</option>
+                                <option value="Gujarati">Gujarati</option>
+                                <option value="Kannada">Kannada</option>
+                                <option value="Malayalam">Malayalam</option>
+                            </select>
+                            <span class="helper">Hold Ctrl (or Cmd) to select multiple. Maximum 3.</span>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    HOBBIES (Optional)
+                    ============================================================ -->
+                    <fieldset style="margin-top: var(--spacing-2xl);">
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-palette" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Hobbies (Optional)
+                        </legend>
+                        <div class="form-group">
+                            <label for="hobbies">Your hobbies</label>
+                            <textarea id="hobbies" name="hobbies" class="form-control" rows="3" placeholder="e.g. Reading, Painting, Chess"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    PHOTO UPLOAD (Mandatory)
+                    ============================================================ -->
+                    <fieldset style="margin-top: var(--spacing-2xl);">
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-image" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Photo <span class="required">*</span>
+                        </legend>
+                        <div class="form-group">
+                            <label for="photo">Upload your recent photo (JPEG/PNG) <span class="required">*</span></label>
+                            <input type="file" id="photo" name="photo" class="form-control" accept="image/jpeg,image/png" required />
+                            <span class="helper">Max file size: 5MB (client-side check not enforced).</span>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    DECLARATION (Mandatory)
+                    ============================================================ -->
+                    <fieldset style="margin-top: var(--spacing-2xl);">
+                        <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
+                            <i class="fas fa-check-circle" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
+                            Declaration <span class="required">*</span>
+                        </legend>
+                        <div class="declaration-box">
+                            <div class="declaration-text">
+                                I hereby declare that the information provided above is true and correct to the best of my knowledge and belief.
+                            </div>
+                            <div class="declaration-row">
+                                <div class="form-group">
+                                    <label for="place">Place <span class="required">*</span></label>
+                                    <input type="text" id="place" name="place" class="form-control" placeholder="e.g. Mumbai" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="date">Date <span class="required">*</span></label>
+                                    <input type="text" id="date" name="date" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- ============================================================
+                    FORM ACTIONS
+                    ============================================================ -->
+                    <div class="form-actions">
+                        <button type="button" id="preview-btn" class="btn btn-primary">
+                            <i class="fas fa-eye"></i> Generate Resume (Preview)
+                        </button>
+                        <button type="reset" class="btn btn-outline">
+                            <i class="fas fa-undo"></i> Reset Form
+                        </button>
+                        <span style="margin-left: auto; font-size: var(--font-size-sm); color: var(--color-text-muted);">
+                            <i class="fas fa-lock"></i> Your data stays on your device.
+                        </span>
+                    </div>
+
+                </form>
+                <!-- end form -->
+
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================================================
+    FOOTER (same as index)
+    ============================================================ -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-icon">💝</span>
+                        <span class="logo-text">CV By Chiame</span>
+                    </a>
+                </div>
+                <p class="footer-description">
+                    Build professional resumes for free. Modern, fast, and
+                    beginner-friendly. Made with 💝 by Chiame.
+                </p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Pages</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resume-form.html">Resume Builder</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 <strong>CV By Chiame</strong> 💝. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script src="script.js"></script>
+</body>
+</html>
