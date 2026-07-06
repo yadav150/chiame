@@ -8,17 +8,19 @@ document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     // ============================================================
-    // 1. HAMBURGER MENU TOGGLE
+    // 1. HAMBURGER MENU TOGGLE (FIXED)
     // ============================================================
     const hamburger = document.querySelector('.hamburger');
     const navMobile = document.querySelector('.nav-mobile');
+    const body = document.body;
 
     if (hamburger && navMobile) {
-        hamburger.addEventListener('click', function () {
+        hamburger.addEventListener('click', function (e) {
+            e.stopPropagation();
             const isOpen = navMobile.classList.toggle('open');
             hamburger.classList.toggle('active');
             hamburger.setAttribute('aria-expanded', isOpen);
-            document.body.style.overflow = isOpen ? 'hidden' : '';
+            body.style.overflow = isOpen ? 'hidden' : '';
         });
 
         // Close mobile menu when a link is clicked
@@ -28,8 +30,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 navMobile.classList.remove('open');
                 hamburger.classList.remove('active');
                 hamburger.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
+                body.style.overflow = '';
             });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (e) {
+            if (navMobile.classList.contains('open')) {
+                const isClickInside = navMobile.contains(e.target) || hamburger.contains(e.target);
+                if (!isClickInside) {
+                    navMobile.classList.remove('open');
+                    hamburger.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    body.style.overflow = '';
+                }
+            }
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && navMobile.classList.contains('open')) {
+                navMobile.classList.remove('open');
+                hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                body.style.overflow = '';
+            }
         });
     }
 
@@ -52,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         fadeElements.forEach(el => observer.observe(el));
     } else {
-        // Fallback: show all immediately
         fadeElements.forEach(el => el.classList.add('visible'));
     }
 
@@ -64,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
     faqQuestions.forEach(question => {
         question.addEventListener('click', function () {
             const expanded = this.getAttribute('aria-expanded') === 'true';
-            // Close all other open FAQs
             faqQuestions.forEach(other => {
                 if (other !== this && other.getAttribute('aria-expanded') === 'true') {
                     other.setAttribute('aria-expanded', 'false');
@@ -75,12 +98,41 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ============================================================
-    // 4. RESUME FORM FUNCTIONALITY
+    // 4. GLASS NOTIFICATION SYSTEM
+    // ============================================================
+    const notificationEl = document.getElementById('glass-notification');
+    const notifMessage = document.getElementById('notif-message');
+
+    function showNotification(message, type = 'error') {
+        if (!notificationEl) return;
+        notifMessage.textContent = message;
+        notificationEl.className = 'glass-notification show ' + type;
+        clearTimeout(window.notificationTimeout);
+        window.notificationTimeout = setTimeout(() => {
+            hideNotification();
+        }, 5000);
+    }
+
+    function hideNotification() {
+        if (notificationEl) {
+            notificationEl.classList.remove('show');
+        }
+        clearTimeout(window.notificationTimeout);
+    }
+
+    if (notificationEl) {
+        notificationEl.addEventListener('click', function () {
+            hideNotification();
+        });
+    }
+
+    // ============================================================
+    // 5. RESUME FORM FUNCTIONALITY
     // ============================================================
     const form = document.getElementById('resume-form');
 
     if (form) {
-        // ---------- 4a. Auto-fill current date in declaration ----------
+        // ---------- 5a. Auto-fill current date in declaration ----------
         const dateField = document.getElementById('date');
         if (dateField) {
             const today = new Date();
@@ -92,36 +144,8 @@ document.addEventListener('DOMContentLoaded', function () {
             dateField.value = formatted;
         }
 
-        // ---------- 4b. Glass Notification ----------
-        const notificationEl = document.getElementById('glass-notification');
-        const notifMessage = document.getElementById('notif-message');
-
-        function showNotification(message, type = 'error') {
-            if (!notificationEl) return;
-            notifMessage.textContent = message;
-            notificationEl.className = 'glass-notification show ' + type;
-            // Auto-hide after 5 seconds
-            clearTimeout(window.notificationTimeout);
-            window.notificationTimeout = setTimeout(() => {
-                hideNotification();
-            }, 5000);
-        }
-
-        function hideNotification() {
-            if (notificationEl) {
-                notificationEl.classList.remove('show');
-            }
-            clearTimeout(window.notificationTimeout);
-        }
-
-        // ---------- 4c. Dynamic Add/Remove for Education ----------
+        // ---------- 5b. Dynamic Add/Remove for Education ----------
         const eduContainer = document.getElementById('education-container');
-        let eduCount = document.querySelectorAll('#education-container .entry-wrapper').length;
-
-        function getEduIndex(entry) {
-            const entries = document.querySelectorAll('#education-container .entry-wrapper');
-            return Array.from(entries).indexOf(entry) + 1;
-        }
 
         function createEducationEntry(index) {
             const wrapper = document.createElement('div');
@@ -172,7 +196,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return wrapper;
         }
 
-        // Add Education
         const addEduBtn = document.getElementById('add-education');
         if (addEduBtn) {
             addEduBtn.addEventListener('click', function () {
@@ -180,16 +203,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const newIndex = entries.length + 1;
                 const newEntry = createEducationEntry(newIndex);
                 eduContainer.appendChild(newEntry);
-                // Show remove button on all entries if more than one
                 updateRemoveButtonsVisibility('.remove-education');
-                // Re-index numbers
                 reindexEducationEntries();
-                // Attach validation removal
                 attachValidationCleanup(newEntry);
             });
         }
 
-        // Remove Education (delegated)
         eduContainer.addEventListener('click', function (e) {
             const removeBtn = e.target.closest('.remove-education');
             if (removeBtn) {
@@ -212,14 +231,12 @@ document.addEventListener('DOMContentLoaded', function () {
             entries.forEach((entry, idx) => {
                 const num = entry.querySelector('.entry-number');
                 if (num) num.textContent = '#' + (idx + 1);
-                // Update IDs and for attributes inside
                 const inputs = entry.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
                     const oldId = input.id;
                     if (oldId) {
                         const newId = oldId.replace(/_\d+$/, '_' + (idx + 1));
                         input.id = newId;
-                        // Update label's for attribute
                         const label = entry.querySelector('label[for="' + oldId + '"]');
                         if (label) label.setAttribute('for', newId);
                     }
@@ -236,10 +253,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         }
-        // Initial update
         updateRemoveButtonsVisibility('.remove-education');
 
-        // ---------- 4d. Dynamic Add/Remove for Other Qualifications ----------
+        // ---------- 5c. Dynamic Add/Remove for Other Qualifications ----------
         const otherQualContainer = document.getElementById('other-qual-container');
         let otherQualCount = 0;
 
@@ -284,7 +300,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 otherQualCount++;
                 const newEntry = createOtherQualEntry(otherQualCount);
                 otherQualContainer.appendChild(newEntry);
-                // Show remove buttons
                 otherQualContainer.querySelectorAll('.remove-otherqual').forEach(btn => btn.style.display = 'inline-flex');
                 attachValidationCleanup(newEntry);
             });
@@ -296,7 +311,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const entry = removeBtn.closest('.entry-wrapper');
                 if (entry) {
                     entry.remove();
-                    // Re-index numbers
                     const entries = otherQualContainer.querySelectorAll('.entry-wrapper');
                     entries.forEach((el, idx) => {
                         const num = el.querySelector('.entry-number');
@@ -306,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // ---------- 4e. Dynamic Add/Remove for Experience ----------
+        // ---------- 5d. Dynamic Add/Remove for Experience ----------
         const expContainer = document.getElementById('experience-container');
         let expCount = 0;
 
@@ -371,36 +385,178 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // ---------- 4f. Skills & Languages Selection Limit ----------
-        const skillsSelect = document.getElementById('skills');
-        const languagesSelect = document.getElementById('languages');
+        // ============================================================
+        // 6. SKILLS & LANGUAGES — DROPDOWN WITH TAGS + CUSTOM OPTION
+        // ============================================================
 
-        function setupSelectLimit(selectElement, max, fieldName) {
-            if (!selectElement) return;
-            selectElement.addEventListener('change', function () {
-                const selected = Array.from(this.selectedOptions);
-                if (selected.length > max) {
-                    // Show notification and deselect the last selected
-                    showNotification(`You can select a maximum of ${max} ${fieldName}.`, 'error');
-                    // Remove the last selected option
-                    const last = selected[selected.length - 1];
-                    last.selected = false;
+        // ---------- 6a. Generic Tag Selector ----------
+        function initTagSelector(selectId, tagsContainerId, hiddenInputId, maxSelections, fieldName) {
+            const select = document.getElementById(selectId);
+            const tagsContainer = document.getElementById(tagsContainerId);
+            const hiddenInput = document.getElementById(hiddenInputId);
+            const customInputId = selectId + '-custom-input';
+
+            if (!select || !tagsContainer || !hiddenInput) return;
+
+            let selectedValues = [];
+
+            // Create custom input field (hidden initially)
+            const customInput = document.createElement('input');
+            customInput.type = 'text';
+            customInput.id = customInputId;
+            customInput.className = 'form-control custom-tag-input';
+            customInput.placeholder = 'Enter custom ' + fieldName + '...';
+            customInput.style.display = 'none';
+            customInput.style.marginTop = '8px';
+            select.parentNode.insertBefore(customInput, select.nextSibling);
+
+            // Function to update tags display
+            function renderTags() {
+                tagsContainer.innerHTML = '';
+                selectedValues.forEach(value => {
+                    const tag = document.createElement('span');
+                    tag.className = 'tag-chip';
+                    tag.innerHTML = value + ' <i class="fas fa-times tag-remove" data-value="' + value + '"></i>';
+                    tagsContainer.appendChild(tag);
+                });
+
+                // Update hidden input
+                hiddenInput.value = selectedValues.join(',');
+
+                // Show/hide select based on max
+                if (selectedValues.length >= maxSelections) {
+                    select.style.display = 'none';
+                    if (customInput.style.display !== 'block') {
+                        customInput.style.display = 'none';
+                    }
                 } else {
-                    hideNotification();
+                    select.style.display = 'block';
+                    // Reset select to placeholder
+                    select.value = '';
+                }
+
+                // Update helper text
+                const helper = select.closest('.select-tag-group').querySelector('.helper');
+                if (helper) {
+                    const remaining = maxSelections - selectedValues.length;
+                    helper.textContent = remaining + ' of ' + maxSelections + ' ' + fieldName + ' remaining. Select from dropdown or choose "Custom" to enter your own.';
+                }
+            }
+
+            // Add tag from select option
+            function addTag(value) {
+                if (!value || value === '' || value === '__custom__') return;
+                if (selectedValues.includes(value)) {
+                    showNotification('"' + value + '" is already selected.', 'error');
+                    return;
+                }
+                if (selectedValues.length >= maxSelections) {
+                    showNotification('You can select a maximum of ' + maxSelections + ' ' + fieldName + '.', 'error');
+                    return;
+                }
+                selectedValues.push(value);
+                renderTags();
+                hideNotification();
+            }
+
+            // Remove tag
+            function removeTag(value) {
+                selectedValues = selectedValues.filter(v => v !== value);
+                renderTags();
+            }
+
+            // Handle select change
+            select.addEventListener('change', function () {
+                const value = this.value;
+                if (value === '__custom__') {
+                    // Show custom input
+                    customInput.style.display = 'block';
+                    customInput.focus();
+                    this.value = '';
+                } else if (value !== '') {
+                    addTag(value);
+                    this.value = '';
                 }
             });
+
+            // Handle custom input
+            customInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const val = this.value.trim();
+                    if (val !== '') {
+                        addTag(val);
+                        this.value = '';
+                        this.style.display = 'none';
+                    }
+                }
+                if (e.key === 'Escape') {
+                    this.value = '';
+                    this.style.display = 'none';
+                }
+            });
+
+            customInput.addEventListener('blur', function () {
+                const val = this.value.trim();
+                if (val !== '') {
+                    addTag(val);
+                    this.value = '';
+                }
+                this.style.display = 'none';
+            });
+
+            // Handle tag removal (delegated)
+            tagsContainer.addEventListener('click', function (e) {
+                const removeBtn = e.target.closest('.tag-remove');
+                if (removeBtn) {
+                    const value = removeBtn.dataset.value;
+                    if (value) {
+                        removeTag(value);
+                        // Show select again if needed
+                        if (selectedValues.length < maxSelections) {
+                            select.style.display = 'block';
+                        }
+                    }
+                }
+            });
+
+            // Initial render
+            renderTags();
+
+            // Return API for external use
+            return {
+                getSelected: () => [...selectedValues],
+                addTag: addTag,
+                removeTag: removeTag,
+                reset: function () {
+                    selectedValues = [];
+                    renderTags();
+                    select.style.display = 'block';
+                    customInput.style.display = 'none';
+                    customInput.value = '';
+                }
+            };
         }
 
-        setupSelectLimit(skillsSelect, 3, 'skills');
-        setupSelectLimit(languagesSelect, 3, 'languages');
+        // ---------- 6b. Initialize Skills ----------
+        const skillsSelector = initTagSelector(
+            'skills-select',
+            'skills-tags',
+            'skills-hidden',
+            3,
+            'skills'
+        );
 
-        // ---------- 4g. Form Validation ----------
-        // Helper to get all required inputs within a container
-        function getRequiredInputs(container) {
-            return container ? container.querySelectorAll('input[required], select[required], textarea[required]') : [];
-        }
+        // ---------- 6c. Initialize Languages ----------
+        const languagesSelector = initTagSelector(
+            'languages-select',
+            'languages-tags',
+            'languages-hidden',
+            3,
+            'languages'
+        );
 
-        // Remove error class on input/change
+        // ---------- 6d. Attach validation cleanup to new entries ----------
         function attachValidationCleanup(container) {
             const inputs = container.querySelectorAll('.form-control');
             inputs.forEach(input => {
@@ -413,7 +569,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // Attach to existing fields
         document.querySelectorAll('.form-control').forEach(input => {
             input.addEventListener('input', function () {
                 this.classList.remove('error');
@@ -423,24 +578,33 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Validate entire form
+        // ============================================================
+        // 7. FORM VALIDATION
+        // ============================================================
+
+        function getRequiredInputs(container) {
+            return container ? container.querySelectorAll('input[required], select[required], textarea[required]') : [];
+        }
+
         function validateForm() {
             let isValid = true;
             let firstInvalid = null;
             const errorMessages = [];
 
-            // 1. Check all required fields in personal details (within form)
+            // 1. Personal details
             const personalFields = form.querySelectorAll('fieldset:first-of-type input[required], fieldset:first-of-type select[required]');
             personalFields.forEach(field => {
                 if (!field.value.trim()) {
                     field.classList.add('error');
                     isValid = false;
                     if (!firstInvalid) firstInvalid = field;
-                    errorMessages.push(`Please fill in "${field.previousElementSibling ? field.previousElementSibling.textContent.replace('*', '').trim() : 'a required field'}"`);
+                    const label = field.closest('.form-group')?.querySelector('label');
+                    const labelText = label ? label.textContent.replace('*', '').trim() : 'a required field';
+                    errorMessages.push('Please fill in "' + labelText + '"');
                 }
             });
 
-            // 2. Check education entries (all required fields inside each entry)
+            // 2. Education entries
             const eduEntries = document.querySelectorAll('#education-container .entry-wrapper');
             eduEntries.forEach((entry, idx) => {
                 const inputs = entry.querySelectorAll('input[required], select[required]');
@@ -450,39 +614,39 @@ document.addEventListener('DOMContentLoaded', function () {
                         isValid = false;
                         if (!firstInvalid) firstInvalid = field;
                         const label = entry.querySelector('label[for="' + field.id + '"]');
-                        const labelText = label ? label.textContent.replace('*', '').trim() : 'Education field #' + (idx+1);
-                        errorMessages.push(`Please fill in "${labelText}" in Education #${idx+1}`);
+                        const labelText = label ? label.textContent.replace('*', '').trim() : 'Education field #' + (idx + 1);
+                        errorMessages.push('Please fill in "' + labelText + '" in Education #' + (idx + 1));
                     }
                 });
             });
 
-            // 3. Skills (must have at least one selected)
-            if (skillsSelect) {
-                const selectedSkills = Array.from(skillsSelect.selectedOptions);
-                if (selectedSkills.length === 0) {
-                    skillsSelect.classList.add('error');
-                    isValid = false;
-                    if (!firstInvalid) firstInvalid = skillsSelect;
-                    errorMessages.push('Please select at least one skill.');
-                } else {
-                    skillsSelect.classList.remove('error');
-                }
+            // 3. Skills (must have at least one)
+            const skillsHidden = document.getElementById('skills-hidden');
+            if (skillsHidden && !skillsHidden.value.trim()) {
+                const skillsSelect = document.getElementById('skills-select');
+                if (skillsSelect) skillsSelect.classList.add('error');
+                isValid = false;
+                if (!firstInvalid) firstInvalid = document.getElementById('skills-select');
+                errorMessages.push('Please select at least one skill.');
+            } else {
+                const skillsSelect = document.getElementById('skills-select');
+                if (skillsSelect) skillsSelect.classList.remove('error');
             }
 
-            // 4. Languages (must have at least one selected)
-            if (languagesSelect) {
-                const selectedLangs = Array.from(languagesSelect.selectedOptions);
-                if (selectedLangs.length === 0) {
-                    languagesSelect.classList.add('error');
-                    isValid = false;
-                    if (!firstInvalid) firstInvalid = languagesSelect;
-                    errorMessages.push('Please select at least one language.');
-                } else {
-                    languagesSelect.classList.remove('error');
-                }
+            // 4. Languages (must have at least one)
+            const languagesHidden = document.getElementById('languages-hidden');
+            if (languagesHidden && !languagesHidden.value.trim()) {
+                const languagesSelect = document.getElementById('languages-select');
+                if (languagesSelect) languagesSelect.classList.add('error');
+                isValid = false;
+                if (!firstInvalid) firstInvalid = document.getElementById('languages-select');
+                errorMessages.push('Please select at least one language.');
+            } else {
+                const languagesSelect = document.getElementById('languages-select');
+                if (languagesSelect) languagesSelect.classList.remove('error');
             }
 
-            // 5. Photo upload (must have a file)
+            // 5. Photo upload
             const photoInput = document.getElementById('photo');
             if (photoInput && !photoInput.files.length) {
                 photoInput.classList.add('error');
@@ -504,22 +668,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 placeInput.classList.remove('error');
             }
 
-            // If not valid, show notification with first message
             if (!isValid) {
                 const firstMsg = errorMessages.length > 0 ? errorMessages[0] : 'Please fill in all required fields.';
                 showNotification(firstMsg, 'error');
-                // Scroll to first invalid field
                 if (firstInvalid) {
                     firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // Focus on the field
                     setTimeout(() => firstInvalid.focus(), 300);
                 }
             } else {
                 hideNotification();
-                // If valid, show success and proceed (preview)
                 showNotification('All fields are valid! Generating resume preview...', 'success');
-                // Here you would implement actual resume generation (backend phase)
-                // For now, just a placeholder.
                 setTimeout(() => {
                     hideNotification();
                 }, 3000);
@@ -537,26 +695,26 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // ---------- 4h. Reset form (clear errors) ----------
+        // ---------- 7a. Reset form ----------
         const resetBtn = form.querySelector('button[type="reset"]');
         if (resetBtn) {
             resetBtn.addEventListener('click', function () {
-                // Clear error classes
                 form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
                 hideNotification();
-                // Reset selects (clear selections) - optional
-                if (skillsSelect) {
-                    Array.from(skillsSelect.options).forEach(opt => opt.selected = false);
-                }
-                if (languagesSelect) {
-                    Array.from(languagesSelect.options).forEach(opt => opt.selected = false);
-                }
-                // Reset file input
+                if (skillsSelector) skillsSelector.reset();
+                if (languagesSelector) languagesSelector.reset();
+                const photoInput = document.getElementById('photo');
                 if (photoInput) photoInput.value = '';
+                const placeInput = document.getElementById('place');
+                if (placeInput) placeInput.value = '';
+                // Reset selects
+                document.querySelectorAll('select.form-control').forEach(sel => {
+                    sel.value = '';
+                });
             });
         }
 
-        // ---------- 4i. Optional: contact form (simple validation) ----------
+        // ---------- 7b. Contact form ----------
         const contactForm = document.getElementById('contact-form');
         if (contactForm) {
             contactForm.addEventListener('submit', function (e) {
@@ -590,7 +748,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } // end if (form)
 
     // ============================================================
-    // 5. ADDITIONAL: Smooth scroll for anchor links (optional)
+    // 8. SMOOTH SCROLL FOR ANCHOR LINKS
     // ============================================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -605,14 +763,5 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-    // ============================================================
-    // 6. CLOSE NOTIFICATION ON CLICK (optional)
-    // ============================================================
-    if (notificationEl) {
-        notificationEl.addEventListener('click', function () {
-            hideNotification();
-        });
-    }
 
 }); // end DOMContentLoaded
