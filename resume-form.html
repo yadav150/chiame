@@ -309,77 +309,87 @@
                         </button>
                     </fieldset>
 
-                    <!-- ============================================================
-                    SKILLS (Mandatory)
+                                        <!-- ============================================================
+                    SKILLS (Mandatory) - DROPDOWN + TAGS + CUSTOM
                     ============================================================ -->
                     <fieldset style="margin-top: var(--spacing-2xl);">
                         <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
                             <i class="fas fa-tags" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
                             Skills <span class="required">*</span> (max 3)
                         </legend>
-                        <div class="form-group">
-                            <label for="skills">Select up to 3 skills <span class="required">*</span></label>
-                            <select id="skills" name="skills" class="form-control" multiple size="4" required>
-                                <option value="JavaScript">JavaScript</option>
-                                <option value="Python">Python</option>
-                                <option value="Java">Java</option>
-                                <option value="C#">C#</option>
-                                <option value="C++">C++</option>
-                                <option value="HTML/CSS">HTML/CSS</option>
-                                <option value="React">React</option>
-                                <option value="Angular">Angular</option>
-                                <option value="Vue.js">Vue.js</option>
-                                <option value="Node.js">Node.js</option>
-                                <option value="Express.js">Express.js</option>
-                                <option value="Django">Django</option>
-                                <option value="Spring Boot">Spring Boot</option>
-                                <option value="SQL">SQL</option>
-                                <option value="MongoDB">MongoDB</option>
-                                <option value="AWS">AWS</option>
-                                <option value="Docker">Docker</option>
-                                <option value="Git">Git</option>
-                                <option value="Agile">Agile</option>
-                                <option value="Leadership">Leadership</option>
-                                <option value="Communication">Communication</option>
-                                <option value="Problem Solving">Problem Solving</option>
-                            </select>
-                            <span class="helper">Hold Ctrl (or Cmd on Mac) to select multiple. You may select up to 3.</span>
+                        <div class="select-tag-group">
+                            <div class="select-tag-wrapper">
+                                <select id="skills-select" class="form-control tag-select">
+                                    <option value="">— Select a skill —</option>
+                                    <option value="JavaScript">JavaScript</option>
+                                    <option value="Python">Python</option>
+                                    <option value="Java">Java</option>
+                                    <option value="C#">C#</option>
+                                    <option value="C++">C++</option>
+                                    <option value="HTML/CSS">HTML/CSS</option>
+                                    <option value="React">React</option>
+                                    <option value="Angular">Angular</option>
+                                    <option value="Vue.js">Vue.js</option>
+                                    <option value="Node.js">Node.js</option>
+                                    <option value="Express.js">Express.js</option>
+                                    <option value="Django">Django</option>
+                                    <option value="Spring Boot">Spring Boot</option>
+                                    <option value="SQL">SQL</option>
+                                    <option value="MongoDB">MongoDB</option>
+                                    <option value="AWS">AWS</option>
+                                    <option value="Docker">Docker</option>
+                                    <option value="Git">Git</option>
+                                    <option value="Agile">Agile</option>
+                                    <option value="Leadership">Leadership</option>
+                                    <option value="Communication">Communication</option>
+                                    <option value="Problem Solving">Problem Solving</option>
+                                    <option value="__custom__">✏️ Custom (enter manually)</option>
+                                </select>
+                                <div id="skills-tags" class="tag-container"></div>
+                                <input type="hidden" id="skills-hidden" name="skills" value="" />
+                            </div>
+                            <span class="helper">Select up to 3 skills. Choose "Custom" to enter your own.</span>
                         </div>
                     </fieldset>
 
                     <!-- ============================================================
-                    LANGUAGES KNOWN (Mandatory)
+                    LANGUAGES KNOWN (Mandatory) - DROPDOWN + TAGS + CUSTOM
                     ============================================================ -->
                     <fieldset style="margin-top: var(--spacing-2xl);">
                         <legend style="font-weight: 700; font-size: var(--font-size-xl); margin-bottom: var(--spacing-md);">
                             <i class="fas fa-language" style="color: var(--color-primary); margin-right: var(--spacing-sm);"></i>
                             Languages Known <span class="required">*</span> (max 3)
                         </legend>
-                        <div class="form-group">
-                            <label for="languages">Select up to 3 languages <span class="required">*</span></label>
-                            <select id="languages" name="languages" class="form-control" multiple size="4" required>
-                                <option value="English">English</option>
-                                <option value="Hindi">Hindi</option>
-                                <option value="Spanish">Spanish</option>
-                                <option value="French">French</option>
-                                <option value="German">German</option>
-                                <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
-                                <option value="Japanese">Japanese</option>
-                                <option value="Korean">Korean</option>
-                                <option value="Russian">Russian</option>
-                                <option value="Portuguese">Portuguese</option>
-                                <option value="Arabic">Arabic</option>
-                                <option value="Bengali">Bengali</option>
-                                <option value="Punjabi">Punjabi</option>
-                                <option value="Marathi">Marathi</option>
-                                <option value="Tamil">Tamil</option>
-                                <option value="Telugu">Telugu</option>
-                                <option value="Urdu">Urdu</option>
-                                <option value="Gujarati">Gujarati</option>
-                                <option value="Kannada">Kannada</option>
-                                <option value="Malayalam">Malayalam</option>
-                            </select>
-                            <span class="helper">Hold Ctrl (or Cmd) to select multiple. Maximum 3.</span>
+                        <div class="select-tag-group">
+                            <div class="select-tag-wrapper">
+                                <select id="languages-select" class="form-control tag-select">
+                                    <option value="">— Select a language —</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="French">French</option>
+                                    <option value="German">German</option>
+                                    <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
+                                    <option value="Japanese">Japanese</option>
+                                    <option value="Korean">Korean</option>
+                                    <option value="Russian">Russian</option>
+                                    <option value="Portuguese">Portuguese</option>
+                                    <option value="Arabic">Arabic</option>
+                                    <option value="Bengali">Bengali</option>
+                                    <option value="Punjabi">Punjabi</option>
+                                    <option value="Marathi">Marathi</option>
+                                    <option value="Tamil">Tamil</option>
+                                    <option value="Telugu">Telugu</option>
+                                    <option value="Urdu">Urdu</option>
+                                    <option value="Gujarati">Gujarati</option>
+                                    <option value="Kannada">Kannada</option>
+                                    <option value="Malayalam">Malayalam</option>
+                                    <option value="__custom__">✏️ Custom (enter manually)</option>
+                                </select>
+                                <div id="languages-tags" class="tag-container"></div>
+                                <input type="hidden" id="languages-hidden" name="languages" value="" />
+                            </div>
+                            <span class="helper">Select up to 3 languages. Choose "Custom" to enter your own.</span>
                         </div>
                     </fieldset>
 
